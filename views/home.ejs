@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en">
+<head>
+</head>
+<body>
+	<% if (!user) { %>
+		<p style="font-size:30px">Welcome! Please <a href="/login">log in</a>.</p>
+	<% } else { %>
+		<p style="font-size:30px">Hello, <%= user.username %>. Ga naar  <a href="/controlpanel">Control Panel</a>.</p>
+	<% } %>
+</body>
+</html>
