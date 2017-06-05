@@ -215,10 +215,10 @@ io.on('connection', function(socket){
 		});
 
 		socket.on('oproep',function(_data){
-			io.emit('oproep', _data);	
+			//io.emit('oproep', _data);	
 		});
 		socket.on('comment',function(_data){
-			io.emit('comment', _data);	
+			//io.emit('comment', _data);	
 		});
 
 		socket.on('selectedComment',function(_comment){
@@ -233,7 +233,7 @@ io.on('connection', function(socket){
 
 			console.log(teams);
 
-			io.emit('teams', teams);	
+			//io.emit('teams', teams);	
 		});
 
 	});
