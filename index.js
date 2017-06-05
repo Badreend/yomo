@@ -195,17 +195,11 @@ io.on('connection', function(socket){
 		io.emit('showPoll', data);
 	});
 
-	socket.on('winHaha', function(_data){
-		io.emit('winHaha', _data);
-	});
-	socket.on('winLove', function(_data){
-		io.emit('winLove', _data);
-	});
 
 
 		socket.on('newPostID',function(_ID){
 			emojiData.postID = _ID;
-			io.emit('getEmojiData',getEmojiData());	
+			//io.emit('getEmojiData',getEmojiData());	
 
 		});
 
