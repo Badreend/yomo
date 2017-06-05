@@ -175,9 +175,9 @@ app.get('/controlpanel',
 
 
 /*
-io.on('connection', function(socket){
 
-	initData();
+
+	
 
 	socket.on('pollState', function(_data){
 		console.log(_data);
@@ -214,21 +214,23 @@ io.on('connection', function(socket){
 			facebookData.selectedComment = _comment;
 			io.emit('returnSelectedComment', _comment);	
 		});
-
+*/
+io.on('connection', function(socket){
+		initData();
 		socket.on('teams',function(_data){
 			console.log('in')
 			teams.team_love = _data.team_love;
 			teams.team_haha = _data.team_haha;
 
 			console.log(teams);
-
-			//io.emit('teams', teams);	
+			io.emit('teams', teams);	
 		});
 
 	});
-*/
+
 
 function initData(){
+	console.log('init')
 	var data = {};
 	data.teams = teams;
 	data.emojiData = emojiData;
