@@ -3,29 +3,23 @@
 		@import url('https://fonts.googleapis.com/css?family=Nothing+You+Could+Do');
 
 
-		@font-face {
-			font-family: 'Relative-Medium';
+@import url('https://fonts.googleapis.com/css?family=Mogra');
 
-			src: url('fonts/Relative-Medium.ttf')  format('truetype'), /* Safari, Android, iOS */
-		}
 
-		@font-face {
-			font-family:'relaltiveBold';
-			src: url('../fonts/Relative-Bold.ttf');
-		}
-		@font-face {
-			font-family:'Century_Gothic';
-			src: url('../fonts/Century_Gothic.ttf');
-		}
-		@font-face {
-			font-family:'Trade_Gothic';
-			src: url('../fonts/Trade_Gothic.ttf');
-		}
+    @font-face {
+      font-family: 'Relative-Medium';
+
+      src: url('fonts/Relative-Medium.ttf')  format('truetype'), /* Safari, Android, iOS */
+    }
+      @font-face {
+      font-family:'relaltiveBold';
+      src: url('../fonts/Relative-Medium.ttf');
+      }
 
 		*{
 			padding:0px;
 			margin:0px;
-			font-family: 'Century_Gothic', Arial, sans-serif;
+  font-family: relaltiveBold;
 			color:#000;
 		}
 		body{
@@ -61,7 +55,6 @@
 			color:#fff;
 			font-size:65px;
 			text-align: center;
-			font-family: 'Trade_Gothic';
 			text-shadow: 2px 0px 5px rgba(0,0,0,.25);
 			margin-bottom:10px;
 			opacity: .8;
@@ -71,7 +64,6 @@
 			color:#fff;
 			font-size:40px;
 			text-align: center;
-			font-family: 'Trade_Gothic';
 			text-shadow: 2px 0px 5px rgba(0,0,0,.25);
 			bottom:50px;
 			opacity: .8;
@@ -93,9 +85,8 @@
 			text-align:center;
 			color:#fff;
 			font-size:45px;
-			bottom:0px;
+			bottom:-5px;
 			text-align: center;
-			font-family: 'Trade_Gothic';
 			text-shadow: 2px 0px 5px rgba(0,0,0,.25);
 		}
 		.pollLabelLeft{
@@ -167,7 +158,6 @@
 			font-size:45px;
 			padding:5px;
 			text-align:center;
-			font-family:'Trade_Gothic';
 			z-index:99999;
 		}
 		.percentageRight{
@@ -180,7 +170,6 @@
 			font-size:45px;
 			padding:5px;
 			text-align:center;
-			font-family:'Trade_Gothic';
 			z-index:99999;
 		}
 		.bottomBar{
@@ -240,18 +229,10 @@
 
 
 		.loveFacesContainer{
-			position: absolute;
-			left:30px;
-			bottom:310px;
-			width:100px;
-			height:500px;
+
 		}
 		.hahaFacesContainer{
-			position: absolute;
-			right:30px;
-			bottom:310px;
-			width:100px;
-			height:500px;
+
 		}
 		.likeEmoji{
 			width:80px;
@@ -262,21 +243,89 @@
 			position: absolute;
 			width:80px;
 			height:80px;
-			bottom:400px;
+			bottom:150px;
+			left:265px;
 			border-radius: 50%;
 			border:5px solid #FFF;
 			transform: scale(1, 1);
-
-			animation: fadein 6s ease-in-out;
+			animation: fadein 1s ease-in-out;
 		}
 
 		.hahaFace{
 			position: absolute;
 			width:80px;
 			height:80px;
-			bottom:400px;
+			bottom:150px;
+			right:265px;
 			border-radius: 50%;
 			border:5px solid #FFF;
 			transform: scale(1, 1);
-			animation: fadeinRight 6s ease-in-out;
+			animation: fadein 1s ease-in-out;
 		}
+		.messages{
+			position: absolute;
+			z-index: 999;
+		}
+
+		.oproep{
+			position: absolute;
+			left:610px; 
+			bottom:100px;
+			width:700px;
+			min-height:100px;
+			background-color:#2d1239;
+			border-radius: 10px;
+			color:#fff;
+			font-size:40px;
+			padding:20px;
+			animation: fadein 300ms ease-in-out;
+
+		}
+
+		.comment{
+			position: absolute;
+			left:610px; 
+			bottom:100px;
+			width:700px;
+			min-height:100px;
+			background-color:#fff;
+			color:#444;
+			padding:20px;
+			animation: fadein 300ms ease-in-out;
+		}
+		.comment img{
+			position: relative;
+			float:left;
+			height:100px;
+			width:100px;
+			border-radius: 100px;
+			margin-right:20px;
+		}
+		.comment p{
+						position: relative;
+
+			float:left;
+			display: inline-flex;
+			width:calc(100% - 120px);
+						font-size:25px;
+    line-height: 150%;
+
+		}
+		.comment h2{
+			position: relative;
+			float:left;
+			display: inline-flex;
+			width:calc(100% - 120px);
+						font-size:27px;
+						font-weight: bold;
+
+		}
+
+@-webkit-keyframes fadein {
+  0%, 10% { transform: translateY(300px);opacity: 0}
+  100% { transform: translateY(0); opacity: 1}
+}
+@keyframes fadein {
+  0%, 10% { transform: translateY(300px);opacity: 0}
+  100% { transform: translateY(0); opacity: 1}
+}

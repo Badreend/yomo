@@ -59,14 +59,18 @@
 
         </div>
       </div>
+<!--       <div class="col-md-4 grid-item">
+      <div class="intern">
+        <h1>Viewport </h1>
+          <iframe id="overlay" src="http://localhost:3000/overlay"></iframe>
+      </div>
+    </div> -->
       <div class="col-md-4 grid-item">
       <div class="intern">
         <h1>Oproep </h1>
-        <form action="" class='msgInput'>
-          <textarea id="msg" placeholder="Bericht input" autocomplete="off" spellcheck="true" class="textInput"/></textarea> 
-          <input type='number' value="15" class="inputSeconds">
-          <input type="submit" class='submit'>
-        </form>
+          <textarea class="oproep_message" placeholder="Hey hey" autocomplete="off" spellcheck="true" class="textInput"/></textarea> 
+          <input type='number' value="15" class="inputSeconds oproep_sec">
+          <input type="button" value="Oproep plaatsen" class="oproep_submit">
       </div>
     </div>
     <div class="col-md-4 grid-item">
@@ -74,10 +78,8 @@
         <h1>Live comments</h1>
         <ul id="commentList">
         </ul>
-        <form action="" class='msgInput'>
-          <input type='number' value="15" class="inputSeconds">
-          <input type="submit" class='submit'>
-        </form>
+          <input type='number' value="15" class="inputSeconds comment_sec_live">
+          <input type="button" value="Comment plaatsen" class='comment_submit_live'>
       </div>
     </div>
     <div class="col-md-4 grid-item">
@@ -87,11 +89,11 @@
           <h2> Naam </h2>
           <input class="comment_name" placeholder="Jan Jansen"></input>
           <h2> Foto url </h2>
-          <input class="comment_foto" placeholder="https:///......"></input>
+          <input class="comment_pic" placeholder="https:///......"></input>
           <h2>Bericht</h2>
-          <textarea id="comment_message" placeholder="Bericht input" autocomplete="off" spellcheck="true" class="textInput"/></textarea> 
-          <input type='number' value="15" class="inputSeconds">
-          <input type="submit" class='submit'>
+          <textarea id="comment_message" placeholder="Bericht input" autocomplete="off" spellcheck="true" class="textInput comment_message"/></textarea> 
+          <input type='number' value="15" class="inputSeconds comment_sec">
+          <input type="button" value="Comment plaatsen" class='comment_submit'>
         </form>
       </div>
     </div>

@@ -39,6 +39,14 @@ passport.deserializeUser(function(id, cb) {
 
 
 
+var typeCounter = {
+	LIKE: 0,
+	LOVE: 0,
+	WOW: 0,
+	HAHA: 0,
+	SAD: 0,
+	ANGRY: 0
+}
 
 var tickerList = [];
 var idCounter = 0; 
@@ -46,9 +54,20 @@ var msgData = [];
 var polls = [];
 var pollData = {};
 var emojiData = {};
+emojiData.reactions = [];
+emojiData.reactionsShown = [];
 var refreshRate = 500;
+emojiData.limit = 40;
 emojiData.connected = false;
 emojiData.postID = undefined;
+emojiData.typeCounter = {
+	LIKE: 0,
+	LOVE: 0,
+	WOW: 0,
+	HAHA: 0,
+	SAD: 0,
+	ANGRY: 0
+}
 emojiData.count = {
 	like: undefined,
 	love: undefined,
@@ -56,6 +75,7 @@ emojiData.count = {
 	angry: undefined,
 	sad: undefined,
 };
+emojiData.counter = 0;
 emojiData.baseline = {};
 emojiData.baseline.love = 0;
 
@@ -63,12 +83,14 @@ emojiData.baseline.haha = 0;
 
 emojiData.access_token = '369577906743625|0VPUwP1JlXagmBwWHvgWFbBa_sE';
 
-getEmojiData();
-setInterval(updateEmojiData, refreshRate);
+//getEmojiData();
+//setInterval(updateEmojiData, refreshRate);
 
 function updateEmojiData(){
-	getEmojiData();
-	io.emit('getEmojiData',emojiData);	
+	if(emojiData.postID !== undefined){
+		getEmojiData();
+		io.emit('getEmojiData',emojiData);
+	}	
 }
 
 
@@ -186,45 +208,26 @@ io.on('connection', function(socket){
 	});
 
 
-		// function addMinutes(date, minutes) {
-		// 	return new Date(date.getTime() + minutes*60000);
-		// }
-
-		socket.on('newTick', function(tick){
-			if(tick !== ' '){
-				idCounter++;
-				tick.id = idCounter;
-				console.log('new tick: '+tick);
-				tickerList.push(tick);
-				console.log('add: '+ tickerList);
-				emitTickerList();			
-			}
-		});
-		socket.on('removeTick', function(id){
-			console.log('id_counter: ' + idCounter);
-			for(var i = 0; i < tickerList.length; i++){
-
-				if(parseInt(tickerList[i].id) === parseInt(id)){
-					tickerList.splice(i, 1);
-				}
-
-			}
-			emitTickerList();
-		});
 		socket.on('newPostID',function(_ID){
 			emojiData.postID = _ID;
 			io.emit('getEmojiData',getEmojiData());	
 
 		});
 
+		socket.on('oproep',function(_data){
+			io.emit('oproep', _data);	
+		});
+		socket.on('comment',function(_data){
+			io.emit('comment', _data);	
+		});
 
 		socket.on('selectedComment',function(_comment){
 			facebookData.selectedComment = _comment;
-			console.log(_comment);
 			io.emit('returnSelectedComment', _comment);	
 		});
 
 		socket.on('teams',function(_data){
+			console.log('in')
 			teams.team_love = _data.team_love;
 			teams.team_haha = _data.team_haha;
 
@@ -239,9 +242,14 @@ io.on('connection', function(socket){
 function initData(){
 	var data = {};
 	data.teams = teams;
-	console.log(data.teams);
-	io.emit('initData', data.teams);
-	console.log('initData');	
+	data.emojiData = emojiData;
+	io.emit('initData', data);
+}
+function syncData(){
+	var data = {};
+	data.teams = teams;
+	data.emojiData = emojiData;
+	io.emit('syncData', data);
 }
 
 http.listen(process.env.PORT || 3000);
@@ -263,74 +271,12 @@ function emitPollData(){
 function newPostID(_id){
 	emojiData.postID = _id;
 }
-
-
-function getEmojiData(){
-
-
-	var reactions = ['LIKE', 'LOVE', 'WOW', 'HAHA', 'SAD', 'ANGRY'].map(function (e) {
-		var code = 'reactions_' + e.toLowerCase();
-		return 'reactions.type(' + e + ').limit(0).summary(total_count).as(' + code + ')'
-	}).join(',');
-	var adress = 'https://graph.facebook.com/v2.8/?ids=' + emojiData.postID + '&fields=' + reactions + '&access_token=' + emojiData.access_token ;
-
-	request(adress, function(err, res, data){
-		if (data === undefined) {
-			console.log('No connection');
-			return;
-		}
-		var data = JSON.parse(data);
-		var postID = emojiData.postID;
-		if(data[postID] !== undefined){
-			emojiData.count.like = data[postID].reactions_like.summary.total_count;
-			emojiData.count.love = data[postID].reactions_love.summary.total_count;
-			emojiData.count.haha = data[postID].reactions_haha.summary.total_count;
-			emojiData.count.wow = data[postID].reactions_wow.summary.total_count;
-			emojiData.count.angry = data[postID].reactions_angry.summary.total_count;
-			emojiData.count.sad = data[postID].reactions_sad.summary.total_count;
-			calcBar(emojiData.count.love,emojiData.count.haha)
-			emojiData.connected = true;
-		}else{
-		//	console.log('PostID is unacceptable');
-		emojiData.count.like = 0;
-		emojiData.count.love = 0;
-		emojiData.count.haha = 0;
-		emojiData.count.wow = 0;
-		emojiData.count.angry = 0;
-		emojiData.count.sad = 0;
-		emojiData.connected = false;
-	}
-});
+function sendProfile(_data){
+	io.emit('getProfile',_data);
+	console.log('send'+_data)
 }
 
-function calcBar(_a,_b){
 
-	var a = _a - emojiData.baseline.love ;
-	var b = _b - emojiData.baseline.haha ;
-
-	a+=1;
-	b+=1;
-
-	if(a <= 0){
-		a = 1;
-	}
-	if(b <= 0){
-		b = 1; 
-	}
-
-	var full = a+b;
-
-	var per = full/100
-
-
-	var aPer = a/per;
-	var bPer = b/per;
-
-	pollData.aPer = aPer;
-	pollData.bPer = bPer;
-	emitPollData();
-
-}
 
 
 
@@ -350,17 +296,38 @@ var updateSpeed = 500;
 
 
 
-
-
-
 //getFacebookData();
 
 
 function update(){
 	if(emojiData.postID !== undefined){
 		getFacebookData();	
-	}10212957395919948
-	
+		getEmojiData();
+
+
+		if(emojiData.reactions[emojiData.counter]){
+			for(var i = 0; i < emojiData.reactionsShown.length; i++){
+				if(emojiData.reactionsShown[i].id === emojiData.reactions[emojiData.counter].id){
+					return;
+				}
+			}	
+			emojiData.reactionsShown.push(emojiData.reactions[emojiData.counter]);
+
+			for (var k in emojiData.typeCounter){
+				if(k ===  emojiData.reactions[emojiData.counter].type){
+					emojiData.typeCounter[k]++;
+					if(emojiData.reactions[emojiData.counter].type === "LOVE" ||
+						emojiData.reactions[emojiData.counter].type === "HAHA" ||
+						emojiData.reactions[emojiData.counter].type === "WOW" ){
+						sendProfile(emojiData.reactions[emojiData.counter]);
+				}
+			}
+		}
+		emojiData.counter++;	
+	}	
+	syncData();
+}
+
 }
 
 function getFacebookData(){
@@ -375,7 +342,6 @@ function getFacebookData(){
 
 		}
 		);
-
 }
 
 function getProfilePicture(_comments){
@@ -391,5 +357,29 @@ function getProfilePicture(_comments){
 			);
 	}	
 }
+
+
+function getEmojiData(){
+	FB.api(
+		'/'+emojiData.postID+'/reactions',
+		'GET',
+		{"fields":"pic_large,name,type","limit":emojiData.limit},
+		function(res) {
+			if(!res || res.error) {
+				console.log(!res ? 'error occurred' : res.error);
+				return;
+			}
+			for(var i = 0; i < res.data.length; i++){
+				for(var j = 0; j < emojiData.reactions.length; j++){
+					if(res.data[i].id === emojiData.reactions[j].id){
+						return;
+					}	
+				}
+				emojiData.reactions.push(res.data[i]);
+			}
+		}
+		);
+}
+
 setInterval(update, updateSpeed);
 update();

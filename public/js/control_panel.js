@@ -9,18 +9,18 @@
   socket.emit('newPostID', data);
   return false;
 });
- $('.msgInput').submit(function(){
-  var data = {};
-  data.msg = $('#msg').val();
-  data.sec = $('.inputSeconds').val()
-  data.msgStyle = $('input[name=msgPosition]').filter(':checked').val();
+//  $('.msgInput').submit(function(){
+//   var data = {};
+//   data.msg = $('#msg').val();
+//   data.sec = $('.inputSeconds').val()
+//   data.msgStyle = $('input[name=msgPosition]').filter(':checked').val();
 
-  console.log(data);
+//   console.log(data);
 
-  socket.emit('chat message', data);
-  $('#msg').val('');
-  return false;
-});
+//   socket.emit('chat message', data);
+//   $('#msg').val('');
+//   return false;
+// });
  socket.on('getEmojiData', function(data){
   if(data){
     if(prevID !== data.postID){
@@ -41,18 +41,7 @@
 });
 
 
- $('.tickerForm').submit(function(){
-  var data = {};
-  data.msg = $('.tickerInput').val();
-  data.name = $('.tickerInputName').val();
-  socket.emit('newTick', data);
-  $('.tickerInput').val('');
-  $('.tickerInputName').val('');
 
-  return false;
-  
-
-});
 
 var facebookData = {};
 
@@ -62,6 +51,41 @@ var facebookData = {};
 
 
 
+$('.oproep_submit').click(function(){
+  var data = {};
+  data.message = $('.oproep_message').val();
+  console.log($('.oproep_message').val());
+  data.sec = $('.oproep_sec').val();
+  console.log(data);
+  $('.oproep_message').val('');
+  socket.emit('oproep', data);
+  return false;
+});
+
+
+$('.comment_submit_live').click(function(){
+  var data = {};
+  data.name = facebookData.selectedComment.from.name;
+  data.pic = facebookData.selectedComment.from.picture.data.url;
+  data.message = facebookData.selectedComment.message;
+  data.sec = $('.comment_sec_live').val();
+  socket.emit('comment', data);
+  console.log(data);
+  return false;
+});
+$('.comment_submit').click(function(){
+  var data = {};
+  data.name = $('.comment_name').val();
+  data.pic = $('.comment_pic').val();
+  data.message = $('.comment_message').val();
+  data.sec = $('.comment_sec').val();
+  socket.emit('comment', data);
+  console.log(data);
+  $('.comment_name').val('');
+  $('.comment_pic').val('');
+  $('.comment_message').val('');
+  return false;
+});
 
 
  socket.on('fbComments', function(_comments){
@@ -84,7 +108,7 @@ var facebookData = {};
 
 $comment.click(function() {
     socket.emit('selectedComment', $(this).data());
-           $(this).addClass('selectedComment')
+    $(this).addClass('selectedComment')
 
     console.log( $(this).data());
 });
@@ -130,27 +154,26 @@ var limit = 2;
 var teams = {};
 
 socket.on('initData', function(_data){
-        console.log(_data)
-
+  var data = _data.teams;
   $('.love_checkbox').each(function () {
-    for(var i = 0; i < _data.team_love.length; i++){
-     if($(this).attr('value') === _data.team_love[i]){
+    for(var i = 0; i < data.team_love.length; i++){
+     if($(this).attr('value') === data.team_love[i]){
         this.checked = true;
         console.log('true')
      }     
     }
   });
-
     $('.haha_checkbox').each(function () {
-    for(var i = 0; i < _data.team_haha.length; i++){
-     if($(this).attr('value') === _data.team_haha[i]){
+    for(var i = 0; i < data.team_haha.length; i++){
+     if($(this).attr('value') === data.team_haha[i]){
         this.checked = true;
         console.log('true')
      }     
     }
   });
-    teams.team_love = _data.team_love;
-    teams.team_haha = _data.team_haha;
+    console.log(data)
+    teams.team_love = data.team_love;
+    teams.team_haha = data.team_haha;
 });
 
 
