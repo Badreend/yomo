@@ -8,6 +8,7 @@
 
   <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
   <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 
 
   <!--Bootstrap -->
@@ -23,22 +24,77 @@
     <a href="/logout" >Log out</a>
   </header>
 
-  <div class="container">
+  <div class="container grid">
     <div class="row">
-      <div class="col-md-4">
-        <h1> Poll Settings</h1>
-        <input class="postIDInput" placeholder="Facebook post ID"></input>
-        <div class="totalEmojiData"></div>
+      <div class="col-md-4 grid-item">
+        <div class="intern">
+          <h1> Poll Settings</h1>
+          <h2> Facebook post id</h2>
+          <input class="postIDInput" placeholder="Facebook post ID"></input>
+          <div class="totalEmojiData"></div>
+          <hr>
+          <h2> Call to action poll </h2>
+          <input class="poll_call" placeholder="WIE WAS DE BESTE?"></input>
+          <hr>
+          <h2> Team Love </h2>
+          <div class="teams_checkbox_container">
+            <label>Gregory</label><input type="checkbox" class="love_checkbox" value="gregory" />
+            <label>Alkan</label><input type="checkbox" class="love_checkbox" value="alkan" />
+            <label>Ouassima</label><input type="checkbox" class="love_checkbox" value="ouassima" />
+            <label>Rowan</label><input type="checkbox" class="love_checkbox" value="rowan" />
+            <label>Ta Tjoela</label><input type="checkbox" class="love_checkbox" value="ta" />
+            <label>Mo Anouar</label><input type="checkbox" class="love_checkbox" value="mo" />
+            <hr>
+          </div>
+
+          <h2> Team Haha </h2>
+          <div class="teams_checkbox_container">
+            <label>Gregory</label><input type="checkbox" class="haha_checkbox" value="gregory" />
+            <label>Alkan</label><input type="checkbox" class="haha_checkbox" value="alkan" />
+            <label>Ouassima</label><input type="checkbox" class="haha_checkbox" value="ouassima" />
+            <label>Rowan</label><input type="checkbox" class="haha_checkbox" value="rowan" />
+            <label>Ta Tjoela</label><input type="checkbox" class="haha_checkbox" value="ta" />
+            <label>Mo Anouar</label><input type="checkbox" class="haha_checkbox" value="mo" />
+          </div>
+
+        </div>
       </div>
-       <div class="col-md-4">
-        <h1>Berichten </h1>
+      <div class="col-md-4 grid-item">
+      <div class="intern">
+        <h1>Oproep </h1>
         <form action="" class='msgInput'>
           <textarea id="msg" placeholder="Bericht input" autocomplete="off" spellcheck="true" class="textInput"/></textarea> 
-          <input type='number' value="3" class="inputSeconds">
+          <input type='number' value="15" class="inputSeconds">
           <input type="submit" class='submit'>
-
+        </form>
+      </div>
     </div>
-
+    <div class="col-md-4 grid-item">
+      <div class="intern">
+        <h1>Live comments</h1>
+        <ul id="commentList">
+        </ul>
+        <form action="" class='msgInput'>
+          <input type='number' value="15" class="inputSeconds">
+          <input type="submit" class='submit'>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-4 grid-item">
+      <div class="intern">
+        <h1>Post comment</h1>
+        <form action="" class='msgInput'>
+          <h2> Naam </h2>
+          <input class="comment_name" placeholder="Jan Jansen"></input>
+          <h2> Foto url </h2>
+          <input class="comment_foto" placeholder="https:///......"></input>
+          <h2>Bericht</h2>
+          <textarea id="comment_message" placeholder="Bericht input" autocomplete="off" spellcheck="true" class="textInput"/></textarea> 
+          <input type='number' value="15" class="inputSeconds">
+          <input type="submit" class='submit'>
+        </form>
+      </div>
+    </div>
   </div>
 
  <!--

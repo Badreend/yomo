@@ -8,30 +8,32 @@ var url = require('url');
 var $ = require('jquery');
 var _ = require('lodash');
 var request = require('request');
+var FB = require('fb');
 
 var passport = require('passport');
 var Strategy = require('passport-local').Strategy;
 var db = require('./db');
 
+
 passport.use(new Strategy(
-  function(username, password, cb) {
-    db.users.findByUsername(username, function(err, user) {
-      if (err) { return cb(err); }
-      if (!user) { return cb(null, false); }
-      if (user.password != password) { return cb(null, false); }
-      return cb(null, user);
-    });
-  }));
+	function(username, password, cb) {
+		db.users.findByUsername(username, function(err, user) {
+			if (err) { return cb(err); }
+			if (!user) { return cb(null, false); }
+			if (user.password != password) { return cb(null, false); }
+			return cb(null, user);
+		});
+	}));
 
 passport.serializeUser(function(user, cb) {
-  cb(null, user.id);
+	cb(null, user.id);
 });
 
 passport.deserializeUser(function(id, cb) {
-  db.users.findById(id, function (err, user) {
-    if (err) { return cb(err); }
-    cb(null, user);
-  });
+	db.users.findById(id, function (err, user) {
+		if (err) { return cb(err); }
+		cb(null, user);
+	});
 });
 
 
@@ -46,7 +48,7 @@ var pollData = {};
 var emojiData = {};
 var refreshRate = 500;
 emojiData.connected = false;
-emojiData.postID = '';
+emojiData.postID = undefined;
 emojiData.count = {
 	like: undefined,
 	love: undefined,
@@ -105,32 +107,32 @@ app.get('/overlay', function(req, res){
 });
 
 app.get('/',
-  function(req, res) {
-  	res.render(__dirname + '/views/home.ejs', { user: req.user });
-  });
+	function(req, res) {
+		res.render(__dirname + '/views/home.ejs', { user: req.user });
+	});
 
 app.get('/login',
-  function(req, res){
-  	res.render(__dirname + '/views/login.ejs');
-  });
-  
+	function(req, res){
+		res.render(__dirname + '/views/login.ejs');
+	});
+
 app.post('/login', 
-  passport.authenticate('local', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/');
-  });
-  
+	passport.authenticate('local', { failureRedirect: '/login' }),
+	function(req, res) {
+		res.redirect('/');
+	});
+
 app.get('/logout',
-  function(req, res){
-    req.logout();
-    res.redirect('/');
-  });
+	function(req, res){
+		req.logout();
+		res.redirect('/');
+	});
 
 app.get('/controlpanel',
-  require('connect-ensure-login').ensureLoggedIn(),
-  function(req, res){
-    res.sendFile(__dirname + '/views/control_panel.html', { user: req.user });
-  });
+	require('connect-ensure-login').ensureLoggedIn(),
+	function(req, res){
+		res.sendFile(__dirname + '/views/control_panel.html', { user: req.user });
+	});
 
 
 
@@ -154,6 +156,7 @@ app.get('/controlpanel',
 io.on('connection', function(socket){
 	sendMsgData();
 	emitTickerList();
+	initData();
 	socket.on('chat message', function(msg){
 		msgData.push(msg);
 		io.emit('chat message', msg);
@@ -187,33 +190,59 @@ io.on('connection', function(socket){
 		// 	return new Date(date.getTime() + minutes*60000);
 		// }
 
-	socket.on('newTick', function(tick){
-		if(tick !== ' '){
-			idCounter++;
-			tick.id = idCounter;
-			console.log('new tick: '+tick);
-			tickerList.push(tick);
-			console.log('add: '+ tickerList);
-			emitTickerList();			
-		}
-	});
-	socket.on('removeTick', function(id){
-		console.log('id_counter: ' + idCounter);
-		for(var i = 0; i < tickerList.length; i++){
-
-			if(parseInt(tickerList[i].id) === parseInt(id)){
-				tickerList.splice(i, 1);
+		socket.on('newTick', function(tick){
+			if(tick !== ' '){
+				idCounter++;
+				tick.id = idCounter;
+				console.log('new tick: '+tick);
+				tickerList.push(tick);
+				console.log('add: '+ tickerList);
+				emitTickerList();			
 			}
+		});
+		socket.on('removeTick', function(id){
+			console.log('id_counter: ' + idCounter);
+			for(var i = 0; i < tickerList.length; i++){
 
-		}
-		emitTickerList();
+				if(parseInt(tickerList[i].id) === parseInt(id)){
+					tickerList.splice(i, 1);
+				}
+
+			}
+			emitTickerList();
+		});
+		socket.on('newPostID',function(_ID){
+			emojiData.postID = _ID;
+			io.emit('getEmojiData',getEmojiData());	
+
+		});
+
+
+		socket.on('selectedComment',function(_comment){
+			facebookData.selectedComment = _comment;
+			console.log(_comment);
+			io.emit('returnSelectedComment', _comment);	
+		});
+
+		socket.on('teams',function(_data){
+			teams.team_love = _data.team_love;
+			teams.team_haha = _data.team_haha;
+
+			console.log(teams);
+
+			io.emit('teams', teams);	
+		});
+
 	});
-	socket.on('newPostID',function(_ID){
-		emojiData.postID = _ID;
-		io.emit('getEmojiData',getEmojiData());	
-		
-	});
-});
+
+
+function initData(){
+	var data = {};
+	data.teams = teams;
+	console.log(data.teams);
+	io.emit('initData', data.teams);
+	console.log('initData');	
+}
 
 http.listen(process.env.PORT || 3000);
 
@@ -262,16 +291,16 @@ function getEmojiData(){
 			calcBar(emojiData.count.love,emojiData.count.haha)
 			emojiData.connected = true;
 		}else{
-			console.log('PostID is unacceptable');
-			emojiData.count.like = 0;
-			emojiData.count.love = 0;
-			emojiData.count.haha = 0;
-			emojiData.count.wow = 0;
-			emojiData.count.angry = 0;
-			emojiData.count.sad = 0;
-			emojiData.connected = false;
-		}
-	});
+		//	console.log('PostID is unacceptable');
+		emojiData.count.like = 0;
+		emojiData.count.love = 0;
+		emojiData.count.haha = 0;
+		emojiData.count.wow = 0;
+		emojiData.count.angry = 0;
+		emojiData.count.sad = 0;
+		emojiData.connected = false;
+	}
+});
 }
 
 function calcBar(_a,_b){
@@ -302,3 +331,65 @@ function calcBar(_a,_b){
 	emitPollData();
 
 }
+
+
+
+
+
+
+var facebookData = {};
+facebookData.comments = [];
+facebookData.selectedComment = [];
+
+var teams = {};
+teams.team_haha = [];
+teams.team_love = [];
+
+FB.setAccessToken('369577906743625|0VPUwP1JlXagmBwWHvgWFbBa_sE');
+var updateSpeed = 500;
+
+
+
+
+
+
+//getFacebookData();
+
+
+function update(){
+	if(emojiData.postID !== undefined){
+		getFacebookData();	
+	}10212957395919948
+	
+}
+
+function getFacebookData(){
+	FB.api(
+		'/'+emojiData.postID+'/comments',
+		'GET',
+		{"fields":"message,id,from{name,picture}","limit":"100","order":"reverse_chronological"},
+		function(res) {
+			facebookData.comments = res.data;
+			//getProfilePicture(facebookData.comments);
+			io.emit('fbComments', facebookData.comments);	
+
+		}
+		);
+
+}
+
+function getProfilePicture(_comments){
+	//profile pictue
+	for(var i = 0; i < _comments.length; i++){
+		FB.api(
+			"/"+_comments[i].id+"/picture",
+			function (res) {
+				if (res && !res.error) {
+					console.log(res);
+				} 
+			}
+			);
+	}	
+}
+setInterval(update, updateSpeed);
+update();

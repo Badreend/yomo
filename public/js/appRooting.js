@@ -1,0 +1,1 @@
+console.log('new page is working');

@@ -1,0 +1,282 @@
+		@import url('https://fonts.googleapis.com/css?family=Crimson+Text');
+		@import url('https://fonts.googleapis.com/css?family=Fredoka+One');
+		@import url('https://fonts.googleapis.com/css?family=Nothing+You+Could+Do');
+
+
+		@font-face {
+			font-family: 'Relative-Medium';
+
+			src: url('fonts/Relative-Medium.ttf')  format('truetype'), /* Safari, Android, iOS */
+		}
+
+		@font-face {
+			font-family:'relaltiveBold';
+			src: url('../fonts/Relative-Bold.ttf');
+		}
+		@font-face {
+			font-family:'Century_Gothic';
+			src: url('../fonts/Century_Gothic.ttf');
+		}
+		@font-face {
+			font-family:'Trade_Gothic';
+			src: url('../fonts/Trade_Gothic.ttf');
+		}
+
+		*{
+			padding:0px;
+			margin:0px;
+			font-family: 'Century_Gothic', Arial, sans-serif;
+			color:#000;
+		}
+		body{
+		}
+		#layerContainer{
+			position: relative;
+			width:1920px;
+			height:1100px;
+			background-image:url('../img/background.png');
+			background-repeat: no-repeat;
+		}
+
+		.waitVideo{
+			position: absolute;
+			bottom:0px;
+		}
+
+		h1{
+			font-size:120px;
+			text-align: center;
+		}
+
+	
+		.pollContainer{
+			position: absolute;
+			bottom:0px;
+			width:100%;
+			height:auto;
+			color:#fff;
+		}
+
+		.pollContainer .timer{
+			color:#fff;
+			font-size:65px;
+			text-align: center;
+			font-family: 'Trade_Gothic';
+			text-shadow: 2px 0px 5px rgba(0,0,0,.25);
+			margin-bottom:10px;
+			opacity: .8;
+		}
+
+		.pollContainer .callToAction{
+			color:#fff;
+			font-size:40px;
+			text-align: center;
+			font-family: 'Trade_Gothic';
+			text-shadow: 2px 0px 5px rgba(0,0,0,.25);
+			bottom:50px;
+			opacity: .8;
+		}
+
+
+
+		.poll{
+			padding-top:10px;
+			padding-bottom:15px;
+
+			position: relative;
+			width:100%;
+			height:120px;		
+		}
+		.bottomBar .question{
+			position: absolute;
+			width:100%;
+			text-align:center;
+			color:#fff;
+			font-size:45px;
+			bottom:0px;
+			text-align: center;
+			font-family: 'Trade_Gothic';
+			text-shadow: 2px 0px 5px rgba(0,0,0,.25);
+		}
+		.pollLabelLeft{
+			position: absolute;
+			height:150px;
+			left:20px;
+			bottom:-20px;
+			width:30%;
+		}
+		.pollLabelRight{
+			position: absolute;
+			height:150px;
+
+			right:20px;
+			bottom:-20px;
+			width:30%;
+		}
+		.pollLabelNameLeft{
+			width:100%;
+			text-align:center;
+			color:#fff;
+			font-size:46px;
+			text-shadow: 2px 0px 5px rgba(0,0,0,.25);
+
+		}
+		.pollLabelNameRight{
+			width:100%;
+			text-align:center;
+			color:#fff;
+			font-size:46px;
+			text-shadow: 2px 0px 5px rgba(0,0,0,.25);
+
+		}
+
+
+		.emojiCircleLeft{
+			position: absolute;
+			border-radius: 50%;
+			z-index: 999;
+			width: 130px;
+			height: 130px;
+			background-color:#fff;
+			left:240px;
+			bottom:5px;
+		}
+		.emojiCircleRight{
+			position: absolute;
+			border-radius: 50%;
+			width: 130px;
+			height: 130px;
+			background-color:#fff;
+			right:240px;
+			bottom:5px;
+		}
+		.emojiCircle img{
+			padding-left:5px;
+			padding-top:5px;
+
+			width:120px;
+			height:120px;
+		}
+		.percentageLeft{
+			position:absolute;
+			border-radius: 50px;
+			background:#fff;
+			left:360px;
+			width:100px;
+			bottom:5px;
+			font-size:45px;
+			padding:5px;
+			text-align:center;
+			font-family:'Trade_Gothic';
+			z-index:99999;
+		}
+		.percentageRight{
+			position:absolute;
+			border-radius: 50px;
+			background:#fff;
+			right:360px;
+			width:100px;
+			bottom:5px;
+			font-size:45px;
+			padding:5px;
+			text-align:center;
+			font-family:'Trade_Gothic';
+			z-index:99999;
+		}
+		.bottomBar{
+			position: absolute;
+			bottom:0px;
+			width:60%;
+			margin-left:20%;
+			height:50px;
+		}
+		.loveBar{
+			position: absolute;
+			left:0px;
+			width:50%;
+			height:50px;
+			background-color:#f52c4c;
+		}
+		.hahaBar{
+			position: absolute;
+			right:0px;
+			width:50%;
+			height:50px;
+			background-color:#ffd954;
+		}	
+
+
+
+		.team_love{
+			position: absolute;
+		}
+
+		.team_love0{
+			position: absolute;
+			bottom:80px;
+			left:120px;
+			width:150px;
+		}
+		.team_love1{
+			position: absolute;
+			bottom:80px;
+			left:340px;
+			width:150px;
+		}
+
+
+		.team_haha0{
+			position: absolute;
+			bottom:80px;
+			right:120px;
+			width:150px;
+		}
+		.team_haha1{
+			position: absolute;
+			bottom:80px;
+			right:340px;
+			width:150px;
+		}
+
+
+		.loveFacesContainer{
+			position: absolute;
+			left:30px;
+			bottom:310px;
+			width:100px;
+			height:500px;
+		}
+		.hahaFacesContainer{
+			position: absolute;
+			right:30px;
+			bottom:310px;
+			width:100px;
+			height:500px;
+		}
+		.likeEmoji{
+			width:80px;
+			height:80px;
+			float:left;
+		}
+		.loveFace{
+			position: absolute;
+			width:80px;
+			height:80px;
+			bottom:400px;
+			border-radius: 50%;
+			border:5px solid #FFF;
+			transform: scale(1, 1);
+
+			animation: fadein 6s ease-in-out;
+		}
+
+		.hahaFace{
+			position: absolute;
+			width:80px;
+			height:80px;
+			bottom:400px;
+			border-radius: 50%;
+			border:5px solid #FFF;
+			transform: scale(1, 1);
+			animation: fadeinRight 6s ease-in-out;
+		}
