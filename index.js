@@ -176,14 +176,9 @@ app.get('/controlpanel',
 
 
 io.on('connection', function(socket){
-	sendMsgData();
-	emitTickerList();
+
 	initData();
-	socket.on('chat message', function(msg){
-		msgData.push(msg);
-		io.emit('chat message', msg);
-		sendMsgData();
-	});
+
 	socket.on('pollState', function(_data){
 		console.log(_data);
 		var data = _data;
