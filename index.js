@@ -254,14 +254,6 @@ function syncData(){
 
 http.listen(process.env.PORT || 3000);
 
-function sendMsgData() {
-	io.emit('newConnection',msgData);	
-}
-
-function emitTickerList() {
-	io.emit('getTickerList',tickerList);	
-}
-
 function emitPollData(){
 	io.emit('getPollData',pollData);	
 }
@@ -381,5 +373,5 @@ function getEmojiData(){
 		);
 }
 
-setInterval(update, updateSpeed);
-update();
+//setInterval(update, updateSpeed);
+//update();
