@@ -223,7 +223,7 @@ io.on('connection', function(socket){
 			teams.team_haha = _data.team_haha;
 
 			console.log(teams);
-			io.emit('teams', teams);	
+			//io.emit('teams', teams);	
 		});
 
 	});
