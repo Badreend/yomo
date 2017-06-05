@@ -6,7 +6,7 @@
 
  $('.postIDInput').on('input', function(){
   var data = $('.postIDInput').val();
-  socket.emit('newPostID', data);
+  ////socket.emit('newPostID', data);
   return false;
 });
 //  $('.msgInput').submit(function(){
@@ -58,7 +58,7 @@ $('.oproep_submit').click(function(){
   data.sec = $('.oproep_sec').val();
   console.log(data);
   $('.oproep_message').val('');
-  socket.emit('oproep', data);
+  ////socket.emit('oproep', data);
   return false;
 });
 
@@ -69,7 +69,7 @@ $('.comment_submit_live').click(function(){
   data.pic = facebookData.selectedComment.from.picture.data.url;
   data.message = facebookData.selectedComment.message;
   data.sec = $('.comment_sec_live').val();
-  socket.emit('comment', data);
+  ////socket.emit('comment', data);
   console.log(data);
   return false;
 });
@@ -79,7 +79,7 @@ $('.comment_submit').click(function(){
   data.pic = $('.comment_pic').val();
   data.message = $('.comment_message').val();
   data.sec = $('.comment_sec').val();
-  socket.emit('comment', data);
+  ////socket.emit('comment', data);
   console.log(data);
   $('.comment_name').val('');
   $('.comment_pic').val('');
@@ -107,7 +107,7 @@ $('.comment_submit').click(function(){
 
 
 $comment.click(function() {
-    socket.emit('selectedComment', $(this).data());
+    ////socket.emit('selectedComment', $(this).data());
     $(this).addClass('selectedComment')
 
     console.log( $(this).data());
@@ -126,7 +126,7 @@ $('.grid').masonry({
  $(".deleteTick").click(function(){
   var id = $(this).parent().attr('data');
 
-  socket.emit('removeTick', id);
+  ////socket.emit('removeTick', id);
   return false;
 });
  // $('#tickerList').scrollTop($('#tickerList')[0].scrollHeight);
@@ -145,7 +145,7 @@ $('.grid').masonry({
   pollData.nameLeft = $('.'+selectedGroupNr+'a').val();
   pollData.nameRight = $('.'+selectedGroupNr+'b').val();
   console.log(pollData);
-  socket.emit('pollState', pollData);
+  ////socket.emit('pollState', pollData);
 });
 
 
@@ -196,7 +196,7 @@ $('.love_checkbox').on('change', function(evt) {
 
 
    teams.team_love = team_love;
-   socket.emit('teams', teams);
+   ////socket.emit('teams', teams);
 
 });
 
@@ -217,7 +217,7 @@ $('.haha_checkbox').on('change', function(evt) {
    console.log(team_haha);
 
    teams.team_haha = team_haha;
-   socket.emit('teams', teams);
+   ////socket.emit('teams', teams);
 
 });
 
@@ -231,12 +231,12 @@ $('.winLove').change(function(e){
   var winLove = {};
   winLove.bool = $('.winLove').prop('checked');
   console.log(winLove.bool);
-  socket.emit('winLove', winLove);
+  ////socket.emit('winLove', winLove);
 });
 
 $('.winHaha').change(function(e){
   var winHaha= {};
   winHaha.bool = $('.winHaha').prop('checked');
   console.log(winHaha.bool);
-  socket.emit('winHaha', winHaha);
+  ////socket.emit('winHaha', winHaha);
 });
