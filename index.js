@@ -292,7 +292,7 @@ teams.team_haha = [];
 teams.team_love = [];
 
 FB.setAccessToken('369577906743625|0VPUwP1JlXagmBwWHvgWFbBa_sE');
-var updateSpeed = 500;
+var updateSpeed = 1000;
 
 
 
