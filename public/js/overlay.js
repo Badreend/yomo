@@ -38,6 +38,7 @@
 
 
 	function displayTeams(_teams){
+		console.log('display_team');
 		$(".team_love").empty();
 		$(".team_haha").empty();
 		for(var i = 0; i < _teams.team_love.length; i++){ 
