@@ -88,7 +88,7 @@ emojiData.access_token = '369577906743625|0VPUwP1JlXagmBwWHvgWFbBa_sE';
 
 function updateEmojiData(){
 	if(emojiData.postID !== undefined){
-		getEmojiData();
+		//getEmojiData();
 		io.emit('getEmojiData',emojiData);
 	}	
 }
@@ -301,8 +301,8 @@ var updateSpeed = 1000;
 
 function update(){
 	if(emojiData.postID !== undefined){
-		getFacebookData();	
-		getEmojiData();
+		//getFacebookData();	
+		//getEmojiData();
 
 
 		if(emojiData.reactions[emojiData.counter]){
