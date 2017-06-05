@@ -174,7 +174,7 @@ app.get('/controlpanel',
 
 
 
-
+/*
 io.on('connection', function(socket){
 
 	initData();
@@ -226,7 +226,7 @@ io.on('connection', function(socket){
 		});
 
 	});
-
+*/
 
 function initData(){
 	var data = {};
