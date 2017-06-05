@@ -28,8 +28,9 @@
 
 
 
-	socket.on('teams',function(_data){
-			//console.log(_data);
+	socket.on('getTeams',function(_data){
+			console.log(_data);
+			console.log('getTeams');
 			teams.team_love = _data.team_love;
 			teams.team_haha = _data.team_haha;
 			displayTeams(teams);

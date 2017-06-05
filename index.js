@@ -220,7 +220,7 @@ io.on('connection', function(socket){
 		socket.on('teams',function(_data){
 			teams.team_love = _data.team_love;
 			teams.team_haha = _data.team_haha;
-			io.emit('teams', teams);	
+			io.emit('getTeams', teams);	
 		});
 
 	});
