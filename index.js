@@ -88,7 +88,7 @@ emojiData.access_token = '369577906743625|0VPUwP1JlXagmBwWHvgWFbBa_sE';
 
 function updateEmojiData(){
 	if(emojiData.postID !== undefined){
-		//getEmojiData();
+		getEmojiData();
 		io.emit('getEmojiData',emojiData);
 	}	
 }
@@ -174,11 +174,16 @@ app.get('/controlpanel',
 
 
 
-/*
 
-
-	
-
+io.on('connection', function(socket){
+	sendMsgData();
+	emitTickerList();
+	initData();
+	socket.on('chat message', function(msg){
+		msgData.push(msg);
+		io.emit('chat message', msg);
+		sendMsgData();
+	});
 	socket.on('pollState', function(_data){
 		console.log(_data);
 		var data = _data;
@@ -195,39 +200,46 @@ app.get('/controlpanel',
 		io.emit('showPoll', data);
 	});
 
+	socket.on('winHaha', function(_data){
+		io.emit('winHaha', _data);
+	});
+	socket.on('winLove', function(_data){
+		io.emit('winLove', _data);
+	});
 
 
 		socket.on('newPostID',function(_ID){
 			emojiData.postID = _ID;
-			//io.emit('getEmojiData',getEmojiData());	
+			io.emit('getEmojiData',getEmojiData());	
 
 		});
 
 		socket.on('oproep',function(_data){
-			//io.emit('oproep', _data);	
+			io.emit('oproep', _data);	
 		});
 		socket.on('comment',function(_data){
-			//io.emit('comment', _data);	
+			io.emit('comment', _data);	
 		});
 
 		socket.on('selectedComment',function(_comment){
 			facebookData.selectedComment = _comment;
 			io.emit('returnSelectedComment', _comment);	
 		});
-*/
-io.on('connection', function(socket){
-		// initData();
+
 		socket.on('teams',function(_data){
+			console.log('in')
 			teams.team_love = _data.team_love;
 			teams.team_haha = _data.team_haha;
-			io.emit('getTeams', teams);	
+
+			console.log(teams);
+
+			io.emit('teams', teams);	
 		});
 
 	});
 
 
 function initData(){
-	console.log('init')
 	var data = {};
 	data.teams = teams;
 	data.emojiData = emojiData;
@@ -241,6 +253,14 @@ function syncData(){
 }
 
 http.listen(process.env.PORT || 3000);
+
+function sendMsgData() {
+	io.emit('newConnection',msgData);	
+}
+
+function emitTickerList() {
+	io.emit('getTickerList',tickerList);	
+}
 
 function emitPollData(){
 	io.emit('getPollData',pollData);	
@@ -272,7 +292,7 @@ teams.team_haha = [];
 teams.team_love = [];
 
 FB.setAccessToken('369577906743625|0VPUwP1JlXagmBwWHvgWFbBa_sE');
-var updateSpeed = 1000;
+var updateSpeed = 500;
 
 
 
@@ -281,8 +301,8 @@ var updateSpeed = 1000;
 
 function update(){
 	if(emojiData.postID !== undefined){
-		//getFacebookData();	
-		//getEmojiData();
+		getFacebookData();	
+		getEmojiData();
 
 
 		if(emojiData.reactions[emojiData.counter]){
@@ -361,5 +381,5 @@ function getEmojiData(){
 		);
 }
 
-//setInterval(update, updateSpeed);
-//update();
+setInterval(update, updateSpeed);
+update();

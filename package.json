@@ -10,14 +10,13 @@
     "express": "*",
     "express-session": "^1.11.3",
     "fb": "^2.0.0",
-    "jQuery": "^1.7.4",
     "jquery": "^3.1.1",
     "lodash": "^4.17.4",
     "morgan": "^1.6.1",
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
     "request": "^2.79.0",
-    "socket.io": "*"
+    "socket.io": "1.7.4"
   },
   "engines": {
     "node": "4.6.0"
