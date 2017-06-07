@@ -127,6 +127,9 @@ app.set('views', __dirname + '/views');
 app.get('/overlay', function(req, res){
 	res.sendFile(__dirname + '/views/overlay.html');
 });
+app.get('/cards', function(req, res){
+	res.sendFile(__dirname + '/views/cards.html');
+});
 
 app.get('/',
 	function(req, res) {
@@ -303,8 +306,6 @@ function update(){
 	if(emojiData.postID !== undefined){
 		getFacebookData();	
 		getEmojiData();
-
-
 		if(emojiData.reactions[emojiData.counter]){
 			for(var i = 0; i < emojiData.reactionsShown.length; i++){
 				if(emojiData.reactionsShown[i].id === emojiData.reactions[emojiData.counter].id){
@@ -326,6 +327,8 @@ function update(){
 		emojiData.counter++;	
 	}	
 	syncData();
+}else{
+	console.log('no id');
 }
 
 }

@@ -1,0 +1,63 @@
+@font-face {
+	font-family: 'Relative-Medium';
+      src: url('../fonts/Relative-Medium.ttf');
+}
+@font-face {
+	font-family:'Relative-Bold';
+	src: url('../fonts/Relative-Bold.ttf');
+}
+body{
+	background: #222;
+}
+.card{
+	position: relative;
+	float:left;
+	width:70%;
+	min-height:100px;
+	margin-left:15%;
+	background-color: #fff;
+	border-radius:10px;
+	margin-top:200px;
+	animation: fadein 500ms ease-in;
+
+}
+.card img{
+	position: relative;
+	float:left;
+	height:50px;
+	width:50px;
+	border-radius: 10px;
+	margin:20px;
+}
+.card p{
+	position: relative;
+	float:left;
+	display: inline-flex;
+	width:calc(100% - 120px);
+	font-size:25px;
+	line-height: 150%;
+	font-family: Relative-Medium;
+	margin:20px;
+	margin-top:0px;
+	color:#333;
+
+}
+.card h1{
+	position: relative;
+	float:left;
+	display: inline-flex;
+	width:calc(100% - 120px);
+	font-size:27px;
+	font-family: Relative-Bold;
+	margin-top:43px;
+
+}
+
+@-webkit-keyframes fadein {
+	0%, 10% { transform: translateY(300px);opacity: 0}
+	100% { transform: translateY(0); opacity: 1}
+}
+@keyframes fadein {
+	0%, 10% { transform: translateY(300px);opacity: 0}
+	100% { transform: translateY(0); opacity: 1}
+}
