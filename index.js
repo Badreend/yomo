@@ -38,21 +38,9 @@ passport.deserializeUser(function(id, cb) {
 
 
 
-
-var typeCounter = {
-	LIKE: 0,
-	LOVE: 0,
-	WOW: 0,
-	HAHA: 0,
-	SAD: 0,
-	ANGRY: 0
-}
-
-var tickerList = [];
 var idCounter = 0; 
 var msgData = [];
 var polls = [];
-var pollData = {};
 var emojiData = {};
 emojiData.reactions = [];
 emojiData.reactionsShown = [];
@@ -179,14 +167,7 @@ app.get('/controlpanel',
 
 
 io.on('connection', function(socket){
-	sendMsgData();
-	emitTickerList();
 	initData();
-	socket.on('chat message', function(msg){
-		msgData.push(msg);
-		io.emit('chat message', msg);
-		sendMsgData();
-	});
 	socket.on('pollState', function(_data){
 		console.log(_data);
 		var data = _data;
@@ -211,35 +192,35 @@ io.on('connection', function(socket){
 	});
 
 
-		socket.on('newPostID',function(_ID){
-			emojiData.postID = _ID;
-			io.emit('getEmojiData',getEmojiData());	
-
-		});
-
-		socket.on('oproep',function(_data){
-			io.emit('oproep', _data);	
-		});
-		socket.on('comment',function(_data){
-			io.emit('comment', _data);	
-		});
-
-		socket.on('selectedComment',function(_comment){
-			facebookData.selectedComment = _comment;
-			io.emit('returnSelectedComment', _comment);	
-		});
-
-		socket.on('teams',function(_data){
-			console.log('in')
-			teams.team_love = _data.team_love;
-			teams.team_haha = _data.team_haha;
-
-			console.log(teams);
-
-			io.emit('teams', teams);	
-		});
+	socket.on('newPostID',function(_ID){
+		emojiData.postID = _ID;
+		io.emit('getEmojiData',getEmojiData());	
 
 	});
+
+	socket.on('oproep',function(_data){
+		io.emit('oproep', _data);	
+	});
+	socket.on('comment',function(_data){
+		io.emit('comment', _data);	
+	});
+
+	socket.on('selectedComment',function(_comment){
+		facebookData.selectedComment = _comment;
+		io.emit('returnSelectedComment', _comment);	
+	});
+
+	socket.on('teams',function(_data){
+		console.log('in')
+		teams.team_love = _data.team_love;
+		teams.team_haha = _data.team_haha;
+
+		console.log(teams);
+
+		io.emit('teams', teams);	
+	});
+
+});
 
 
 function initData(){
@@ -256,18 +237,6 @@ function syncData(){
 }
 
 http.listen(process.env.PORT || 3000);
-
-function sendMsgData() {
-	io.emit('newConnection',msgData);	
-}
-
-function emitTickerList() {
-	io.emit('getTickerList',tickerList);	
-}
-
-function emitPollData(){
-	io.emit('getPollData',pollData);	
-}
 
 
 
@@ -302,35 +271,68 @@ var updateSpeed = 500;
 //getFacebookData();
 
 
-function update(){
-	if(emojiData.postID !== undefined){
-		getFacebookData();	
-		getEmojiData();
-		if(emojiData.reactions[emojiData.counter]){
-			for(var i = 0; i < emojiData.reactionsShown.length; i++){
-				if(emojiData.reactionsShown[i].id === emojiData.reactions[emojiData.counter].id){
-					return;
-				}
-			}	
-			emojiData.reactionsShown.push(emojiData.reactions[emojiData.counter]);
-
-			for (var k in emojiData.typeCounter){
-				if(k ===  emojiData.reactions[emojiData.counter].type){
-					emojiData.typeCounter[k]++;
-					if(emojiData.reactions[emojiData.counter].type === "LOVE" ||
-						emojiData.reactions[emojiData.counter].type === "HAHA" ||
-						emojiData.reactions[emojiData.counter].type === "WOW" ){
-						sendProfile(emojiData.reactions[emojiData.counter]);
-				}
+function checkId(){
+	FB.api(
+		'/'+emojiData.postID,
+		'GET',
+		function(res){
+			if(!res || res.error){
+				console.log('unvalid id');
+				return(false);
+			}else{
+				console.log('valid id');
+				return(true);
 			}
-		}
-		emojiData.counter++;	
-	}	
-	syncData();
-}else{
-	console.log('no id');
+		});
+
 }
 
+
+function update(){
+	syncData();
+	FB.api(
+		'/'+emojiData.postID,
+		'GET',
+		function(res){
+			if(!res || res.error){
+				console.log('unvalid id');
+				// emojiData.typeCounter.LIKE = 0;
+				// emojiData.typeCounter.LOVE = 0;
+				// emojiData.typeCounter.HAHA = 0;
+				emojiData.connected = false;
+				return(false);
+			}else{
+				console.log('valid id');
+
+				emojiData.connected = true;
+				getFacebookData();	
+				getEmojiData();
+				countFbData();
+			}
+		});
+}
+
+function countFbData(){
+	if(emojiData.reactions[emojiData.counter]){
+		for(var i = 0; i < emojiData.reactionsShown.length; i++){
+			if(emojiData.reactionsShown[i].id === emojiData.reactions[emojiData.counter].id){
+				return;
+			}
+		}	
+		emojiData.reactionsShown.push(emojiData.reactions[emojiData.counter]);
+
+		for (var k in emojiData.typeCounter){
+			if(k ===  emojiData.reactions[emojiData.counter].type){
+				emojiData.typeCounter[k]++;
+				if(emojiData.reactions[emojiData.counter].type === "LOVE" ||
+					emojiData.reactions[emojiData.counter].type === "HAHA" ||
+					emojiData.reactions[emojiData.counter].type === "WOW" ){
+					sendProfile(emojiData.reactions[emojiData.counter]);
+			}
+		}
+	}
+	emojiData.counter++;	
+}	
 }
 
 function getFacebookData(){
@@ -354,10 +356,10 @@ function getProfilePicture(_comments){
 			"/"+_comments[i].id+"/picture",
 			function (res) {
 				if (res && !res.error) {
-					console.log(res);
-				} 
-			}
-			);
+				//	console.log(res);
+			} 
+		}
+		);
 	}	
 }
 

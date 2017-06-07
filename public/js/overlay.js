@@ -11,11 +11,11 @@
 		calcBar(fbData.typeCounter.LOVE,fbData.typeCounter.HAHA)
 	});
 	socket.on('syncData',function(_data){
-		//teams = _data.teams;
+		teams = _data.teams;
 		fbData = _data.emojiData;
 		//console.log(_data);
 		calcBar(fbData.typeCounter.LOVE,fbData.typeCounter.HAHA)
-
+		displayTeams(teams);
 	});
 
 	socket.on('getPollData', function(data){
@@ -42,11 +42,15 @@
 		console.log('display_team');
 		$(".team_love").empty();
 		$(".team_haha").empty();
-		for(var i = 0; i < _teams.team_love.length; i++){ 
-			$(".team_love").append($('<img>').attr('src','img/cast_faces/wil_0.png').attr("class","team_love"+i+""));
+		if(_teams.team_love){
+			for(var i = 0; i < _teams.team_love.length; i++){ 
+				$(".team_love").append($('<img>').attr('src','img/cast_faces/wil_0.png').attr("class","team_love"+i+""));
+			}
 		}
-		for(var i = 0; i < _teams.team_haha.length; i++){ 
-			$(".team_haha").append($('<img>').attr('src','img/cast_faces/wil_0.png').attr("class","team_haha"+i+""));
+		if(_teams.team_haha){
+			for(var i = 0; i < _teams.team_haha.length; i++){ 
+				$(".team_haha").append($('<img>').attr('src','img/cast_faces/wil_0.png').attr("class","team_haha"+i+""));
+			}
 		}
 	}
 

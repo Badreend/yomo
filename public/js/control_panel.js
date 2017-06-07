@@ -21,33 +21,18 @@
 //   $('#msg').val('');
 //   return false;
 // });
- socket.on('getEmojiData', function(data){
-  if(data){
-    if(prevID !== data.postID){
-      console.log(data);
-      if(data.connected){
-        $('.postIDInputLabel').css("background-color", "#1CB27A");
-      }else{
-        $('.postIDInputLabel').css("background-color", "#D1535D");
-      }
+//  socket.on('getEmojiData', function(data){
 
-      $('.postIDInput').val(data.postID);
-      $('.postIDInput').val(data.postID);
-
-    };
-    prevID = data.postID;
-    $('.totalEmojiData').text("Total: - Like " + data.count.like + " - Love " + data.count.love + " - Haha " + data.count.haha);
-  };
-});
+// });
 
 
 
 
 var facebookData = {};
 
- socket.on('returnSelectedComment', function(_comment){
+socket.on('returnSelectedComment', function(_comment){
   facebookData.selectedComment = _comment;
- });
+});
 
 
 
@@ -88,7 +73,7 @@ $('.comment_submit').click(function(){
 });
 
 
- socket.on('fbComments', function(_comments){
+socket.on('fbComments', function(_comments){
   $('#commentList').html('');
   $('#commentList').val('');
 
@@ -103,17 +88,17 @@ $('.comment_submit').click(function(){
 
 
    $comment.append($('<h4>').text(_comments[i].from.name));
-  $comment.append($('<p>').text(_comments[i].message));
+   $comment.append($('<p>').text(_comments[i].message));
 
 
-$comment.click(function() {
+   $comment.click(function() {
     socket.emit('selectedComment', $(this).data());
     $(this).addClass('selectedComment')
 
     console.log( $(this).data());
-});
+  });
   // $comment.append($('<a>').attr('class','deleteTick').text('x'));
- }
+}
 
 
 
@@ -123,7 +108,7 @@ $('.grid').masonry({
   columnWidth: 10
 });
 
- $(".deleteTick").click(function(){
+$(".deleteTick").click(function(){
   var id = $(this).parent().attr('data');
 
   socket.emit('removeTick', id);
@@ -134,7 +119,7 @@ $('.grid').masonry({
 
 
 
- $('.pollActive').change(function(e){
+$('.pollActive').change(function(e){
   var pollData = {};
   pollData.bool = $('.pollActive').prop('checked');
   pollData.minutes = $('.pollDuration').val();
@@ -150,7 +135,7 @@ $('.grid').masonry({
 
 
 
-var limit = 2;
+var limit = 3;
 var teams = {};
 
 socket.on('initData', function(_data){
@@ -158,66 +143,81 @@ socket.on('initData', function(_data){
   $('.love_checkbox').each(function () {
     for(var i = 0; i < data.team_love.length; i++){
      if($(this).attr('value') === data.team_love[i]){
-        this.checked = true;
-        console.log('true')
-     }     
-    }
-  });
-    $('.haha_checkbox').each(function () {
+      this.checked = true;
+      console.log('true')
+    }     
+  }
+});
+  $('.haha_checkbox').each(function () {
     for(var i = 0; i < data.team_haha.length; i++){
      if($(this).attr('value') === data.team_haha[i]){
-        this.checked = true;
-        console.log('true')
-     }     
-    }
-  });
-    console.log(data)
-    teams.team_love = data.team_love;
-    teams.team_haha = data.team_haha;
+      this.checked = true;
+      console.log('true')
+    }     
+  }
+});
+  teams.team_love = _data.team_love;
+  teams.team_haha = _data.team_haha;
+  console.log(_data.emojiData.connected);
+
+  if(_data.emojiData.connected){
+    $('.postIDInput').css("background-color", "#1CB27A");
+  }else{
+    $('.postIDInput').css("background-color", "#D1535D");
+  }
+
+  $('.postIDInput').val(_data.emojiData.postID);
+  $('.totalEmojiData').text("Total: - Like " + _data.emojiData.typeCounter.LIKE + " - Love " + _data.emojiData.typeCounter.LOVE + " - Haha " + _data.emojiData.typeCounter.HAHA);
 });
 
 
-
+socket.on('syncData', function(_data){
+  if(_data.emojiData.connected){
+    $('.postIDInput').css("background-color", "#1CB27A");
+  }else{
+    $('.postIDInput').css("background-color", "#D1535D");
+  }
+});
 
 
 $('.love_checkbox').on('change', function(evt) {
   var team_love = [];
-   if($(this).siblings(':checked').length >= limit) {
-       this.checked = false;
+  if($(this).siblings(':checked').length >= limit) {
+   this.checked = false;
+ }
+
+ $('.love_checkbox').each(function () {
+   if($(this).is(':checked')){
+     team_love.push($(this).attr('value'));
    }
+ });
 
-   $('.love_checkbox').each(function () {
-     if($(this).is(':checked')){
-           team_love.push($(this).attr('value'));
-     }
-  });
-
-   console.log(team_love);
+ console.log(team_love);
 
 
-   teams.team_love = team_love;
-   socket.emit('teams', teams);
+ teams.team_love = team_love;
+ socket.emit('teams', teams);
 
 });
 
 
 
 $('.haha_checkbox').on('change', function(evt) {
-    var team_haha = [];
+  var team_haha = [];
 
-   if($(this).siblings(':checked').length >= limit) {
-       this.checked = false;
+  if($(this).siblings(':checked').length >= limit) {
+   this.checked = false;
+ }
+
+ $('.haha_checkbox').each(function () {
+   if($(this).is(':checked')){
+     team_haha.push($(this).attr('value'));
    }
+ });
+ console.log(team_haha);
 
-    $('.haha_checkbox').each(function () {
-     if($(this).is(':checked')){
-           team_haha.push($(this).attr('value'));
-     }
-  });
-   console.log(team_haha);
-
-   teams.team_haha = team_haha;
-   socket.emit('teams', teams);
+ teams.team_haha = team_haha;
+ socket.emit('teams', teams);
 
 });
 
