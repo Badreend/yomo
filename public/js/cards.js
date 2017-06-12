@@ -1,3 +1,5 @@
+Howler.mobileAutoEnable = true;
+
 var sound = new Howl({
   src: ['sound/plop.mp3']
 });
