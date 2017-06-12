@@ -3,8 +3,10 @@ var socket = io();
 	var audio = new Audio('sound/plop.mp3');
 	audio.load();
     window.sounds['sound/plop.mp3'] = audio;
+	var audio1 = document.getElementById('audio1');
 
 socket.on('comment',function(_data){
+	audio1.play();
 	audio.play();
 	$('.cards_container').empty();
 	$card = $('<div>').attr('class',"card");
