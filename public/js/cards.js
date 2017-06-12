@@ -1,13 +1,12 @@
+var sound = new Howl({
+  src: ['sound/plop.mp3']
+});
+
 var socket = io();
-    window.sounds = new Object();
-	var audio = new Audio('sound/plop.mp3');
-	audio.load();
-    window.sounds['sound/plop.mp3'] = audio;
-	var audio1 = document.getElementById('audio1');
 
 socket.on('comment',function(_data){
-	audio1.play();
-	audio.play();
+	sound.play();
+
 	$('.cards_container').empty();
 	$card = $('<div>').attr('class',"card");
 	$card.delay(_data.sec*1000).fadeOut(300);
