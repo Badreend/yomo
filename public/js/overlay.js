@@ -15,7 +15,7 @@
 		fbData = _data.emojiData;
 		//console.log(_data);
 		calcBar(fbData.typeCounter.LOVE,fbData.typeCounter.HAHA)
-		displayTeams(teams);
+		//displayTeams(teams);
 	});
 
 	socket.on('getPollData', function(data){
@@ -39,47 +39,58 @@
 
 
 	function displayTeams(_teams){
-		console.log('display_team');
+		console.log('tik')
 		$(".team_love").empty();
 		$(".team_haha").empty();
 		if(_teams.team_love){
 			for(var i = 0; i < _teams.team_love.length; i++){ 
-				$(".team_love").append($('<img>').attr('src','img/cast_faces/wil_0.png').attr("class","team_love"+i+""));
+				$face = $('<img>').attr('src','img/cast_faces/'+_teams.team_love[i]+'_0.png').attr("class","team_love"+i+"");
+				$face.attr('name',_teams.team_love[i]);
+				$(".team_love").append($face);
 			}
 		}
 		if(_teams.team_haha){
 			for(var i = 0; i < _teams.team_haha.length; i++){ 
-				$(".team_haha").append($('<img>').attr('src','img/cast_faces/wil_0.png').attr("class","team_haha"+i+""));
-			}
+				$face = $('<img>').attr('src','img/cast_faces/'+_teams.team_haha[i]+'_0.png').attr("class","team_haha"+i+"");
+				$face.attr('name',_teams.team_haha[i]);
+				$(".team_haha").append($face);			}
 		}
 	}
 
 
 	socket.on('getProfile',function(_data){
 		if(_data.type === "LOVE"){
-			$face = ($('<img>').attr('src',_data.pic_large).attr('class','profilePic loveFace'));
-			$face.delay(3000).fadeOut(800);					
-			$('.loveFacesContainer').append($face);
+			$emojiFace = ($('<img>').attr('src',_data.pic_large).attr('class','profilePic loveFace'));
+			$emojiFace.delay(3000).fadeOut(800);					
+			$('.loveFacesContainer').append($emojiFace);
 
 			$(".team_love").children('img').each(function(){
-				$(this).attr('src','img/cast_faces/wil_'+1+'.png');
+				var name = $(this).attr('name');
+				$selectedFace = $(this).attr('src','img/cast_faces/'+name+'_'+1+'.png');
+
 				setTimeout(function() {
-					console.log('close');
-					console.log($(this));
-					$(".team_love").children('img').attr('src','img/cast_faces/wil_'+0+'.png');
+					$(".team_love").children('img').each(function(){
+						name = $(this).attr('name');
+						$(this).attr('src','img/cast_faces/'+name+'_'+0+'.png');
+					});
 				}, 3000);
 			});
 		}else if(_data.type === "HAHA"){
-			$face = $(".hahaFacesContainer").append($('<img>').attr('src',_data.pic_large).attr('class','profilePic hahaFace'));
-			$face.delay(3000).fadeOut(800);					
-			$('.hahaFacesContainer').append($face);
+			$emojiFace = ($('<img>').attr('src',_data.pic_large).attr('class','profilePic hahaFace'));
+			$emojiFace.delay(3000).fadeOut(800);					
+			$('.hahaFacesContainer').append($emojiFace);
 
 			$(".team_haha").children('img').each(function(){
-				$(this).attr('src','img/cast_faces/wil_'+1+'.png');
+				var name = $(this).attr('name');
+				$(this).attr('src','img/cast_faces/'+name+'_'+1+'.png');
+				$that = $(this);
+
+
 				setTimeout(function() {
-					console.log('close');
-					console.log($(this));
-					$(".team_haha").children('img').attr('src','img/cast_faces/wil_'+0+'.png');
+					$(".team_haha").children('img').each(function(){
+						name = $(this).attr('name');
+						$(this).attr('src','img/cast_faces/'+name+'_'+0+'.png');
+					});
 				}, 3000);
 			});
 		}
@@ -116,32 +127,32 @@
 	}
 
 
-		socket.on('oproep',function(_data){
-						$('.messages_container').empty();
+		// socket.on('oproep',function(_data){
+		// 				$('.messages_container').empty();
 
-			$oproep = $('<div>').attr('class',"oproep").html(_data.message);
-			$oproep.delay(_data.sec*1000).fadeOut(300);
+		// 	$oproep = $('<div>').attr('class',"oproep").html(_data.message);
+		// 	$oproep.delay(_data.sec*1000).fadeOut(300);
 
-			$('.messages_container').append($oproep);
-		});
+		// 	$('.messages_container').append($oproep);
+		// });
 
-		socket.on('comment',function(_data){
-			$('.messages_container').empty();
-			$comment = $('<div>').attr('class',"comment");
-			$comment.delay(_data.sec*1000).fadeOut(300);
+		// socket.on('comment',function(_data){
+		// 	$('.messages_container').empty();
+		// 	$comment = $('<div>').attr('class',"comment");
+		// 	$comment.delay(_data.sec*1000).fadeOut(300);
 
-			$img = $('<img>').attr('src',_data.pic);
-			$name = $('<h2>').html(_data.name);
-			$message = $('<p>').html(_data.message);
+		// 	$img = $('<img>').attr('src',_data.pic);
+		// 	$name = $('<h2>').html(_data.name);
+		// 	$message = $('<p>').html(_data.message);
 
-			$comment.append($img);
-			$comment.append($name);
-			$comment.append($message);
-
-
+		// 	$comment.append($img);
+		// 	$comment.append($name);
+		// 	$comment.append($message);
 
 
-			$('.messages_container').append($comment);
-		});
+
+
+		// 	$('.messages_container').append($comment);
+		// });
 
 

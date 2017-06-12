@@ -37,6 +37,8 @@ passport.deserializeUser(function(id, cb) {
 });
 
 
+var timerData = {};
+timerData.bool = false;
 
 var idCounter = 0; 
 var msgData = [];
@@ -150,39 +152,8 @@ app.get('/controlpanel',
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 io.on('connection', function(socket){
 	initData();
-	socket.on('pollState', function(_data){
-		console.log(_data);
-		var data = _data;
-		data.bool = _data.bool;
-		if(_data){
-			data.minutes = _data.minutes;
-			emojiData.baseline.love = emojiData.count.love;
-			emojiData.baseline.haha = emojiData.count.haha;
-			console.log(data);
-
-		}
-		console.log(data);
-
-		io.emit('showPoll', data);
-	});
 
 	socket.on('winHaha', function(_data){
 		io.emit('winHaha', _data);
@@ -220,6 +191,12 @@ io.on('connection', function(socket){
 		io.emit('teams', teams);	
 	});
 
+	socket.on('timer',function(_data){
+		timerData.bool = _data.bool;
+		io.emit('timer', timerData);
+		console.log(timerData.bool);	
+	});
+
 });
 
 
@@ -227,6 +204,7 @@ function initData(){
 	var data = {};
 	data.teams = teams;
 	data.emojiData = emojiData;
+	data.timer = timerData;
 	io.emit('initData', data);
 }
 function syncData(){

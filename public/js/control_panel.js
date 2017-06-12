@@ -9,6 +9,9 @@
   socket.emit('newPostID', data);
   return false;
 });
+
+
+
 //  $('.msgInput').submit(function(){
 //   var data = {};
 //   data.msg = $('#msg').val();
@@ -119,19 +122,13 @@ $(".deleteTick").click(function(){
 
 
 
-$('.pollActive').change(function(e){
-  var pollData = {};
-  pollData.bool = $('.pollActive').prop('checked');
-  pollData.minutes = $('.pollDuration').val();
-
-  var selectedGroupNr = $(".selectedGroup").filter(':checked').val();
-  console.log(selectedGroupNr);
-
-  pollData.nameLeft = $('.'+selectedGroupNr+'a').val();
-  pollData.nameRight = $('.'+selectedGroupNr+'b').val();
-  console.log(pollData);
-  socket.emit('pollState', pollData);
+$('.timerSwitch').change(function(e){
+  var data = {};
+  data.bool = $('.timerSwitch').prop('checked');
+  console.log(data)
+  socket.emit('timer', data);
 });
+
 
 
 
@@ -139,23 +136,37 @@ var limit = 3;
 var teams = {};
 
 socket.on('initData', function(_data){
+  if(_data.timer.bool){
+      $('.timerSwitch').bootstrapToggle('on')
+  }else{
+      $('.timerSwitch').bootstrapToggle('off')
+  }
+
+
   var data = _data.teams;
-  $('.love_checkbox').each(function () {
-    for(var i = 0; i < data.team_love.length; i++){
-     if($(this).attr('value') === data.team_love[i]){
-      this.checked = true;
-      console.log('true')
-    }     
+
+  if(data.team_love){
+        $('.love_checkbox').each(function () {
+          for(var i = 0; i < data.team_love.length; i++){
+           if($(this).attr('value') === data.team_love[i]){
+            this.checked = true;
+            console.log('true')
+          }     
+        }
+      });
   }
-});
-  $('.haha_checkbox').each(function () {
-    for(var i = 0; i < data.team_haha.length; i++){
-     if($(this).attr('value') === data.team_haha[i]){
-      this.checked = true;
-      console.log('true')
-    }     
+  if(data.team_haha){
+      $('.haha_checkbox').each(function () {
+        for(var i = 0; i < data.team_haha.length; i++){
+         if($(this).attr('value') === data.team_haha[i]){
+          this.checked = true;
+          console.log('true')
+        }     
+      }
+    });
   }
-});
+
+
   teams.team_love = _data.team_love;
   teams.team_haha = _data.team_haha;
   console.log(_data.emojiData.connected);

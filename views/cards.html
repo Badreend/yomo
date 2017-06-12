@@ -4,11 +4,32 @@
 	<link href="css/cards.css" rel="stylesheet">
 </head>
 <body>
+	<div class="timer">
+	</div>
 	<div class="cards_container">
-			
+
 	</div>
 	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 	<script src="http://code.jquery.com/jquery-2.2.0.js" crossorigin="anonymous"></script> 
 	<script type="text/javascript" src="js/cards.js"></script>
+	<script type="text/javascript" src="plugins/jquery.countdown.js"></script>
+	<script type="text/javascript">
+		var socket = io();
+		socket.on('timer',function(_data){
+			if(_data.bool){
+				console.log('timer');
+				var now = new Date();
+				now.setMinutes(now.getMinutes() + 20);
+				$('.timer').countdown(now, function(event) {
+					$(this).html(event.strftime('%M:%S'));
+				});	
+			}else{
+				$('.timer').countdown(new Date(), function(event) {
+					$(this).html(event.strftime('%M:%S'));
+				});			}
+
+		})
+	</script>
+
 </body>
 </html>
