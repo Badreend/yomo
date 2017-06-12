@@ -1,6 +1,8 @@
 var socket = io();
 
 	var audio = new Audio('sound/plop.mp3');
+	audio.load();
+    window.sounds['sound/plop.mp3'] = audio;
 
 socket.on('comment',function(_data){
 	audio.play();
