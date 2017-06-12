@@ -1,9 +1,11 @@
 var socket = io();
+    window.sounds = new Object();
 	var audio = new Audio('sound/plop.mp3');
 	audio.load();
+    window.sounds['sound/plop.mp3'] = audio;
 
 socket.on('comment',function(_data){
-	audio.play();
+	window.sounds['sound/plop.mp3'].play();
 	$('.cards_container').empty();
 	$card = $('<div>').attr('class',"card");
 	$card.delay(_data.sec*1000).fadeOut(300);
