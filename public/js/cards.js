@@ -1,8 +1,9 @@
 var socket = io();
 
-
+	var audio = new Audio('sound/plop.mp3');
 
 socket.on('comment',function(_data){
+	audio.play();
 	$('.cards_container').empty();
 	$card = $('<div>').attr('class',"card");
 	$card.delay(_data.sec*1000).fadeOut(300);
