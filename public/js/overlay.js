@@ -61,37 +61,44 @@
 	socket.on('getProfile',function(_data){
 		if(_data.type === "LOVE"){
 			$emojiFace = ($('<img>').attr('src',_data.pic_large).attr('class','profilePic loveFace'));
-			$emojiFace.delay(3000).fadeOut(800);					
+			$emojiFace.delay(2000).queue(function() { $(this).remove(); });				
 			$('.loveFacesContainer').append($emojiFace);
+			
+			$('.loveEmoji').addClass('happyEmoji');
 
 			$(".team_love").children('img').each(function(){
 				var name = $(this).attr('name');
 				$selectedFace = $(this).attr('src','img/cast_faces/'+name+'_'+1+'.png');
+				$selectedFace.addClass('animation');
+
 
 				setTimeout(function() {
+					$('.loveEmoji').removeClass('happyEmoji');
+
 					$(".team_love").children('img').each(function(){
 						name = $(this).attr('name');
 						$(this).attr('src','img/cast_faces/'+name+'_'+0+'.png');
+						$(this).removeClass('animation');
 					});
-				}, 3000);
+				}, 1200);
 			});
 		}else if(_data.type === "HAHA"){
 			$emojiFace = ($('<img>').attr('src',_data.pic_large).attr('class','profilePic hahaFace'));
-			$emojiFace.delay(3000).fadeOut(800);					
+			$emojiFace.delay(2000).queue(function() { $(this).remove(); });				
 			$('.hahaFacesContainer').append($emojiFace);
 
 			$(".team_haha").children('img').each(function(){
 				var name = $(this).attr('name');
-				$(this).attr('src','img/cast_faces/'+name+'_'+1+'.png');
-				$that = $(this);
-
+				$selectedFace = $(this).attr('src','img/cast_faces/'+name+'_'+1+'.png');
+				$selectedFace.addClass('animation');
 
 				setTimeout(function() {
 					$(".team_haha").children('img').each(function(){
 						name = $(this).attr('name');
 						$(this).attr('src','img/cast_faces/'+name+'_'+0+'.png');
+						$(this).removeClass('animation');
 					});
-				}, 3000);
+				}, 1200);
 			});
 		}
 
@@ -125,6 +132,21 @@
 		$(".hahaBar").width(bPer+"%");
 		$(".percentageRight").html(Math.round(bPer)+"%");
 	}
+
+			socket.on('timer',function(_data){
+			if(_data.bool){
+				console.log('timer');
+				var now = new Date();
+				now.setMinutes(now.getMinutes() + 20);
+				$('.timer').countdown(now, function(event) {
+					$(this).html(event.strftime('%M:%S'));
+				});	
+			}else{
+				$('.timer').countdown(new Date(), function(event) {
+					$(this).html(event.strftime('%M:%S'));
+				});			}
+
+		})
 
 
 		// socket.on('oproep',function(_data){

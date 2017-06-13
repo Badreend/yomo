@@ -274,9 +274,9 @@ function update(){
 		function(res){
 			if(!res || res.error){
 				console.log('unvalid id');
-				// emojiData.typeCounter.LIKE = 0;
-				// emojiData.typeCounter.LOVE = 0;
-				// emojiData.typeCounter.HAHA = 0;
+				emojiData.typeCounter.LIKE = 0;
+				emojiData.typeCounter.LOVE = 0;
+				emojiData.typeCounter.HAHA = 0;
 				emojiData.connected = false;
 				return(false);
 			}else{

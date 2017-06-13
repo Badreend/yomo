@@ -167,8 +167,12 @@ socket.on('initData', function(_data){
   }
 
 
-  teams.team_love = _data.team_love;
-  teams.team_haha = _data.team_haha;
+  teams.team_love = data.team_love;
+  teams.team_haha = data.team_haha;
+  console.log('-----');
+  console.log(teams);
+  console.log('-----');
+
   console.log(_data.emojiData.connected);
 
   if(_data.emojiData.connected){
@@ -203,11 +207,11 @@ $('.love_checkbox').on('change', function(evt) {
    }
  });
 
- console.log(team_love);
 
 
  teams.team_love = team_love;
  socket.emit('teams', teams);
+ console.log(teams);
 
 });
 
@@ -225,10 +229,11 @@ $('.haha_checkbox').on('change', function(evt) {
      team_haha.push($(this).attr('value'));
    }
  });
- console.log(team_haha);
 
  teams.team_haha = team_haha;
+
  socket.emit('teams', teams);
+ console.log(teams);
 
 });
 

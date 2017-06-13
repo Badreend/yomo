@@ -64,7 +64,7 @@ header a:hover{
      list-style-type: none;
      margin: 0; 
      padding: 0; 
-     height:40vh;
+     height:50vh;
      overflow-y: scroll;
 
    }
@@ -87,7 +87,7 @@ header a:hover{
   #commentList li h4{ 
     position: relative;
     float:left;
-    font-size:10px;
+    font-size:15px;
     margin-left:20px;
     font-weight: bolder;
   }
@@ -95,7 +95,7 @@ header a:hover{
   #commentList li p{ 
     position: relative;
     float:left;
-    font-size:10px;
+    font-size:15px;
     width:100%;
 
   }
