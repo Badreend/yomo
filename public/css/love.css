@@ -17,10 +17,12 @@
       src: url('../fonts/Relative-Medium.ttf');
       }
 
+      
+
 		*{
 			padding:0px;
 			margin:0px;
-  font-family: relaltiveBold;
+  			font-family: relaltiveBold;
 			color:#000;
 		}
 		body{
@@ -29,7 +31,7 @@
 			position: relative;
 			width:1920px;
 			height:1340px;
-			background-image:url('../img/background.png');
+			background-image:url('../img/bg_win.png');
 			background-repeat: no-repeat;
 		}
 
@@ -132,8 +134,8 @@
 			width: 210px;
 			height: 210px;
 			background-color:#fff;
-			left:205px;
-			bottom:55px;
+			left:855px;
+			bottom:155px;
 		}
 		.emojiCircleRight{
 			position: absolute;
@@ -204,6 +206,7 @@
 
 		.team_love{
 			position: absolute;
+			z-index-1;
 		}
 		.team_love img{
 			position: absolute;
@@ -220,10 +223,6 @@
 			position: absolute;
 			z-index: 999999999999999;
 			/*animation: happyEmoji 2s ease-in-out;	*/		
-		}
-
-		.team_haha{
-			position: relative;
 		}
 	
 		.team_haha img{

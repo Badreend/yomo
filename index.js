@@ -71,7 +71,7 @@ emojiData.baseline.love = 0;
 
 emojiData.baseline.haha = 0;
 
-emojiData.access_token = '369577906743625|0VPUwP1JlXagmBwWHvgWFbBa_sE';
+emojiData.access_token = '774230302751494|zFiVW6g4Uj96SwDD3EZf2vPyuCU';
 
 //getEmojiData();
 //setInterval(updateEmojiData, refreshRate);
@@ -120,7 +120,12 @@ app.get('/overlay', function(req, res){
 app.get('/cards', function(req, res){
 	res.sendFile(__dirname + '/views/cards.html');
 });
-
+app.get('/love', function(req, res){
+	res.sendFile(__dirname + '/views/love.html');
+});
+app.get('/haha', function(req, res){
+	res.sendFile(__dirname + '/views/haha.html');
+});
 app.get('/',
 	function(req, res) {
 		res.render(__dirname + '/views/home.ejs', { user: req.user });
@@ -161,7 +166,6 @@ io.on('connection', function(socket){
 	socket.on('winLove', function(_data){
 		io.emit('winLove', _data);
 	});
-
 
 	socket.on('newPostID',function(_ID){
 		emojiData.postID = _ID;
@@ -241,7 +245,7 @@ var teams = {};
 teams.team_haha = [];
 teams.team_love = [];
 
-FB.setAccessToken('369577906743625|0VPUwP1JlXagmBwWHvgWFbBa_sE');
+FB.setAccessToken('774230302751494|zFiVW6g4Uj96SwDD3EZf2vPyuCU');
 var updateSpeed = 500;
 
 
@@ -297,6 +301,7 @@ function countFbData(){
 				return;
 			}
 		}	
+
 		emojiData.reactionsShown.push(emojiData.reactions[emojiData.counter]);
 
 		for (var k in emojiData.typeCounter){
@@ -306,10 +311,11 @@ function countFbData(){
 					emojiData.reactions[emojiData.counter].type === "HAHA" ||
 					emojiData.reactions[emojiData.counter].type === "WOW" ){
 					sendProfile(emojiData.reactions[emojiData.counter]);
+				}
 			}
 		}
-	}
-	emojiData.counter++;	
+
+		emojiData.counter++;	
 }	
 }
 

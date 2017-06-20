@@ -120,13 +120,20 @@ $(".deleteTick").click(function(){
  // $('#tickerList').scrollTop($('#tickerList')[0].scrollHeight);
 });
 
+//quick fix
 
+
+var initTimer = 0;
 
 $('.timerSwitch').change(function(e){
-  var data = {};
-  data.bool = $('.timerSwitch').prop('checked');
-  console.log(data)
-  socket.emit('timer', data);
+  if(initTimer > 0){
+      var data = {};
+      data.bool = $('.timerSwitch').prop('checked');
+      console.log(data)
+      socket.emit('timer', data);
+  }
+  initTimer++;
+
 });
 
 
