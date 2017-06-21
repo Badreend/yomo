@@ -6,34 +6,21 @@
 <body>
 	<div class="timer">
 	</div>
-	<div class="cards_container">
+	<ul class="cards_container">
 	</div>
 
 	<audio id="audio1" src="sound/plop.mp3" autoplay></audio>
 
 	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 	<script src="http://code.jquery.com/jquery-2.2.0.js" crossorigin="anonymous"></script> 
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.3/howler.core.min.js"></script>
-	
 	<script type="text/javascript" src="js/cards.js"></script>
 	<script type="text/javascript" src="plugins/jquery.countdown.js"></script>
 	<script type="text/javascript">
 		var socket = io();
 
-		socket.on('timer',function(_data){
-			if(_data.bool){
-				console.log('timer');
-				var now = new Date();
-				now.setMinutes(now.getMinutes() + 20);
-				$('.timer').countdown(now, function(event) {
-					$(this).html(event.strftime('%M:%S'));
-				});	
-			}else{
-				$('.timer').countdown(new Date(), function(event) {
-					$(this).html(event.strftime('%M:%S'));
-				});			}
-
-		})
+		
 	</script>
 
 </body>
