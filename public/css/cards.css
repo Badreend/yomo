@@ -29,7 +29,7 @@ header{
 	margin-left:10%;
 	background-color: #fff;
 	border-radius:10px;
-	margin-top:25px;
+	margin-top:125px;
 	min-height: 100px;
 	animation: fadein 500ms ease-in;
 }
@@ -67,12 +67,12 @@ header{
 .timer{
 	position: absolute;
 	width:100%;
-	height:100%;
-	font-size:16rem;
+	height:200px;
+	font-size:6rem;
 	font-family: 'Relative-Medium', monospace;
 	color:#fff;
 	text-align:center;
-	margin-top:200px;
+	margin-top:0px;
 	color:#ddd;
 }
 
