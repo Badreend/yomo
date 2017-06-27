@@ -234,20 +234,20 @@
 		.team_love0{
 			position: absolute;
 			bottom:120px;
-			left:0px;
+			left:10px;
 			width:140px;
 		}
 		.team_love1{
 			position: absolute;
 			bottom:120px;
-			left:200px;
+			left:270px;
 			width:140px;
 		}
 
 		.team_love2{
 			position: absolute;
 			bottom:120px;
-			left:410px;
+			left:490px;
 			width:140px;
 			z-index: -1;
 		}
@@ -255,19 +255,19 @@
 		.team_haha0{
 			position: absolute;
 			bottom:120px;
-			right:0px;
+			right:10px;
 			width:140px;
 		}
 		.team_haha1{
 			position: absolute;
 			bottom:120px;
-			right:200px;
+			right:270px;
 			width:140px;
 		}
 		.team_haha2{
 			position: absolute;
 			bottom:120px;
-			right:365px;
+			right:445px;
 			width:140px;
 		}
 

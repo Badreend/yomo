@@ -38,7 +38,7 @@
 			$('.pollContainer').hide();
 			$('.team_love').hide();
 
-			$('.team_haha').css('right','550px');
+			$('.team_haha').css('right','650px');
 			$('.team_haha').css('bottom','-50px');
 
 			$('#layerContainer').css('background-image','url("../img/bg_win.png")');
@@ -56,7 +56,7 @@
 
 	socket.on('winLove', function(data){
 		if(data.bool){
-			$('.team_love').css('left','550px');
+			$('.team_love').css('left','650px');
 			$('.team_love').css('bottom','-50px');
 
 			$('.team_haha').hide();
